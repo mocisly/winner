@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# cvt-submission.sh - Form README.md from remarks.md and 2 templates
+# gen-readme.sh - Form README.md from remarks.md and 2 templates
 #
 # Given a submission (that may be in the final rounds of judging
 # but may not not yet have won the IOCCC) form a README.md file
@@ -11,7 +11,7 @@
 #
 #   chongo (Landon Curt Noll, http://www.isthe.com/chongo/index.html) /\oo/\
 #
-# Copyright (c) 2025 by Landon Curt Noll.  All Rights Reserved.
+# Copyright (c) 2025-2026 by Landon Curt Noll.  All Rights Reserved.
 #
 # Permission to use, copy, modify, and distribute this software and
 # its documentation for any purpose and without fee is hereby granted,
@@ -154,7 +154,7 @@ Exit codes:
      3         command line error
      4         bash version is too old
      5	       YYYY is not a valid year
-     6	       command line file not found or not readable
+     6	       command line file not found, or not readable
  >= 10         internal error
 
 $NAME version: $VERSION"
