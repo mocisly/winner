@@ -711,6 +711,19 @@ that for System V we had to do this) Cody added to the Makefile
 
 Jump to: [top](#)
 
+
+<div id="1987_heckbert">
+## Winning entry: [1987/heckbert](1987/heckbert/index.html)
+### Winning entry source code: [heckbert.c](%%REPO_URL%%/1987/heckbert/heckbert.c)
+</div>
+
+[Cody](#cody) fixed the Makefile. The `CSILENCE` had a `-D` which belongs in
+`CDEFINE`.
+
+
+Jump to: [top](#)
+
+
 <div id="1987_hines">
 ## Winning entry: [1987/hines](1987/hines/index.html)
 ### Winning entry source code: [hines.c](%%REPO_URL%%/1987/hines/hines.c)
@@ -722,6 +735,7 @@ for demonstration purposes. Notice that the program is case sensitive which
 running the program on the text file demonstrates.
 
 Jump to: [top](#)
+
 
 <div id="1987_lievaart">
 ## Winning entry: [1987/lievaart](1987/lievaart/index.html)
@@ -1228,7 +1242,7 @@ IOCCC [Tetris](https://en.wikipedia.org/wiki/Tetris) working (this of course was
 not his only reason :-) )
 
 [Anthony](#sirwumpus) fixed this entry to compile on NetBSD 10.1 by supplying
-missing include files, without which caused a SIGILL (thats like a SEGSEGV, but
+missing include files, without which caused a SIGILL (thats like a SIGSEGV, but
 caused by a nasty cold ~~boot~~).
 
 Jump to: [top](#)
