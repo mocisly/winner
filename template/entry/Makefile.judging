@@ -22,7 +22,7 @@ SHELL= bash
 
 # Common C compiler warnings to silence
 #
-# Example: CSILENCE= -Wno-poison-system-directories
+# Example: CSILENCE= -Wno-int-conversion -Wno-missing-variable-declarations -Wno-missing-prototypes
 #
 CSILENCE=
 
@@ -33,9 +33,11 @@ CUNKNOWN= -Wno-unknown-warning-option
 # Common C compiler warning flags
 #
 # XXX - remove text below, including this line - XXX
+# XXX -
 # XXX - NOTE: The addition of -pedantic to CWARN is a challenge that
 # XXX -       You may wish to avoid if it proves too problematic.
 # XXX -       There is NO penalty for removing -pedantic from CWARN.
+# XXX -
 # XXX - remove text above, including this line - XXX
 #
 CWARN= -Wall -Wextra -pedantic ${CSILENCE} ${CUNKNOWN}
@@ -61,7 +63,7 @@ CDEFINE=
 
 # Include files that are needed to compile
 #
-# Example: CINCLUDE= -include stdio.h
+# Example: CINCLUDE= -include stdio.h -include stdlib.h -include unistd.h
 #
 CINCLUDE=
 
@@ -80,7 +82,7 @@ COTHER=
 # XXX -
 # XXX - remove text above, including this line - XXX
 #
-# Example: OPT= -O0 -g
+# Example: OPT= -O0 -ggdb3
 #
 OPT= -O3
 
@@ -95,7 +97,6 @@ CFLAGS= ${CSTD} ${CWARN} ${ARCH} ${CDEFINE} ${CINCLUDE} ${COTHER} ${OPT}
 LDFLAGS=
 
 # C compiler to use
-#
 # XXX - remove text below, including this line - XXX
 # XXX -
 # XXX - NOTE: The IOCCC Judges recommend you leave CC as just "cc"
@@ -123,7 +124,8 @@ ifeq "$(findstring $(CLANG),${CC})" "$(CLANG)"
 # This code is only invoked when CC is "clang"
 # such as when you use the make command line:
 #
-#           make all CC=clang
+#    make all CC=clang
+#    make all CC=clang-mp-12
 #
 CSILENCE+=
 #
@@ -139,6 +141,7 @@ ifeq "$(findstring $(GCC),${CC})" "$(GCC)"
 # such as when you use the make command line:
 #
 #    make all CC=gcc
+#    make all CC=gcc-15
 #
 CSILENCE+=
 #
@@ -201,10 +204,20 @@ ${PROG}: ${PROG}.c
 	${CC} ${CFLAGS} ${PROG}.c -o $@ ${LDFLAGS}
 
 # alternative executable
+# XXX - remove text below, including this line - XXX
+# XXX -
+# XXX - remove this entire rule if you do NOT have a alt.prog.c
+# XXX -
+# XXX - remove text above, including this line - XXX
 #
 alt: data ${ALT_TARGET}
 	@${TRUE}
 
+# XXX - remove text below, including this line - XXX
+# XXX -
+# XXX - remove this entire rule if you do NOT have a alt.prog.c
+# XXX -
+# XXX - remove text above, including this line - XXX
 ${PROG}.alt: ${PROG}.alt.c
 	${CC} ${CFLAGS} ${PROG}.alt.c -o $@ ${LDFLAGS}
 
