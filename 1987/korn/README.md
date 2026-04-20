@@ -62,6 +62,13 @@ The source for [v7](https://en.wikipedia.org/wiki/Version_7_Unix)'s /bin/sh
 greatly inspired this contest.
 
 
+### IMPORTANT HISTORIC NOTE:
+
+C compilers of the K&R era used to defined `unix` as **1*** on Unix-based
+systems, or **0** on non-Unix-based systems.  As this practice is no
+longer done, we have to "fake" this situation on the compile line.
+
+
 ## Author's remarks:
 
 No remarks were provided by the author.

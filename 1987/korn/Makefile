@@ -38,7 +38,7 @@ include ../../var.mk
 
 # Common C compiler warnings to silence
 #
-CSILENCE= -Wno-error -Wno-implicit-function-declaration -Wno-implicit-int -Dunix=1 \
+CSILENCE= -Wno-error -Wno-implicit-function-declaration -Wno-implicit-int \
 	  -Wno-string-plus-int -Wno-strict-prototypes -Wno-return-type \
 	  -Wno-builtin-declaration-mismatch -Wno-format-contains-nul
 
@@ -60,7 +60,13 @@ ARCH=
 
 # Defines that are needed to compile
 #
-CDEFINE=
+# IMPORTANT HISTORIC NOTE:
+#
+#    C compilers of the K&R era used to defined `unix` as **1*** on Unix-based
+#    systems, or **0** on non-Unix-based systems.  As this practice is no
+#    longer done, we have to "fake" this situation on the compile line.
+#
+CDEFINE= -Dunix=1
 
 # Include files that are needed to compile
 #
