@@ -1,29 +1,39 @@
 #!/usr/bin/env bash
 #
-# try.alt.sh - demonstrate alternate YYYY/XXX    <<=== The IOCCC Judges will replace this line
+# try.alt.sh - alternative demonstration of YYYY/XXX    <<=== The IOCCC Judges will replace this line
 
-# XXX - NOTE: please remove all "XXX - ... - XXX" lines, including this one - XXX
-# XXX -                                                                     - XXX
-# XXX - try.alt.sh example version: 29.0.0 2025-11-24                       - XXX
+# XXX - remove text below, including this line				    - XXX
+# XXX -									    - XXX
+# XXX - NOTE: please remove all "XXX - ... - XXX" lines			    - XXX
+# XXX -									    - XXX
+# XXX - try.alt.sh example version: 30.0.0 2026-04-21                       - XXX
+# XXX -									    - XXX
+# XXX - remove text above, including this line				    - XXX
 
 # make sure CC is set so that when we do make CC="$CC" it isn't empty. Doing it
 # this way allows us to have the user specify a different compiler in an easy way.
 #
+# XXX - remove text below, including this line				    - XXX
+# XXX -									    - XXX
 # XXX - if you need CC to be something else, say clang, then change cc      - XXX
 # XXX - to whatever you need.                                               - XXX
 # XXX - If you need other variables you can also set them in whatever way   - XXX
 # XXX - you need; this is a good method, however, in cases where it's OK    - XXX
 # XXX - to let the user redefine it.                                        - XXX
 # XXX -                                                                     - XXX
+# XXX - remove text above, including this line				    - XXX
 [[ -z "$CC" ]] && CC="cc"
 
 # make sure the program has been built
 #
+# XXX - remove text below, including this line				    - XXX
+# XXX -									    - XXX
 # XXX - make sure to compile the program, using make all!                   - XXX
 # XXX - if you need to build the alt code for the try.sh script,            - XXX
 # XXX - then change the 'all' to 'all alt' in the below command.            - XXX
 # XXX - Later, if the submission wins, it can be changed to 'everything'.   - XXX
 # XXX -                                                                     - XXX
+# XXX - remove text above, including this line				    - XXX
 MAKE=$(command -v gmake)
 ${MAKE:=make} CC="$CC" alt >/dev/null || exit 1
 
@@ -31,6 +41,8 @@ ${MAKE:=make} CC="$CC" alt >/dev/null || exit 1
 #
 clear
 
+# XXX - remove text below, including this line				    - XXX
+# XXX -									    - XXX
 # XXX - NOTE: You can include more than one command line, including pipes.  - XXX
 # XXX -                                                                     - XXX
 # XXX - It is good to use the shell built-in read(1) to let the user know   - XXX
@@ -50,9 +62,12 @@ clear
 # XXX -                                                                     - XXX
 # XXX - Examples follow.                                                    - XXX
 # XXX -                                                                     - XXX
-# XXX - For more examples, see the try.sh scripts under the 2024 directory. - XXX
+# XXX - For more examples, see the try.alt.sh scripts under most recent	    - XXX
+# XXX -	IOCCC year's directory.						    - XXX
 # XXX -                                                                     - XXX
 # XXX - Remove/expand sections as needed: these are just examples.          - XXX
+# XXX -									    - XXX
+# XXX - remove text above, including this line				    - XXX
 
 # try the program
 #
@@ -64,9 +79,12 @@ echo 1>&2
 
 # try the program with args
 #
+# XXX - remove text below, including this line				    - XXX
+# XXX -									    - XXX
 # XXX - Notice that the echo below is also sent to stderr, and there is an  - XXX
 # XXX - empty echo written to stderr before the shell built-in read(1) call - XXX
 # XXX -                                                                     - XXX
+# XXX - remove text above, including this line				    - XXX
 echo 'Let us try another example.  Observe the line count of output and the last line of data!' 1>&2
 echo 1>&2
 read -r -n 1 -p "Press any key to run: date | ./prog.alt some command line | LANG=C sort > data: "
