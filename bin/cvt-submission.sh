@@ -124,7 +124,7 @@ export LC_ALL="C"
 
 # set variables referenced in the usage message
 #
-export VERSION="2.3.0 2025-07-02"
+export VERSION="2.3.1 2026-04-21"
 NAME=$(basename "$0")
 export NAME
 export V_FLAG=0
@@ -1197,7 +1197,8 @@ export TEMPLATE_ENTRY_DIR="$TEMPLATE_DIR/entry"
 export TEMPLATE_GITIGNORE="$TEMPLATE_ENTRY_DIR/gitignore"
 export TEMPLATE_README_MD_HEAD="$TEMPLATE_ENTRY_DIR/README.md.head"
 export TEMPLATE_README_MD_TAIL="$TEMPLATE_ENTRY_DIR/README.md.tail"
-export TEMPLATE_TRY_SH="$TEMPLATE_ENTRY_DIR/try.sh.judging"
+export TEMPLATE_TRY_SH="$NEXT_DIR/try.sh"
+export TEMPLATE_TRY_ALT_SH="$NEXT_DIR/try.alt.sh"
 
 
 # determine TARBALL filename
@@ -1281,6 +1282,8 @@ if [[ $V_FLAG -ge 3 ]]; then
     echo "$0: debug[3]: TEMPLATE_GITIGNORE=$TEMPLATE_GITIGNORE" 1>&2
     echo "$0: debug[3]: TEMPLATE_README_MD_HEAD=$TEMPLATE_README_MD_HEAD" 1>&2
     echo "$0: debug[3]: TEMPLATE_README_MD_TAIL=$TEMPLATE_README_MD_TAIL" 1>&2
+    echo "$0: debug[3]: TEMPLATE_TRY_SH=$TEMPLATE_TRY_SH" 1>&2
+    echo "$0: debug[3]: TEMPLATE_TRY_ALT_SH=$TEMPLATE_TRY_ALT_SH" 1>&2
     echo "$0: debug[3]: TARBALL_DIR=$TARBALL_DIR" 1>&2
     echo "$0: debug[3]: NOW=$NOW" 1>&2
     echo "$0: debug[3]: TARBALL=$TARBALL" 1>&2
@@ -1314,7 +1317,11 @@ if [[ ! -d $NEXT_DIR ]]; then
     exit 6
 fi
 if [[ ! -f $TEMPLATE_TRY_SH ]]; then
-    echo "$0: ERROR: missing template/entry/try.sh.judging: $TEMPLATE_TRY_SH" 1>&2
+    echo "$0: ERROR: missing template/entry/try.sh: $TEMPLATE_TRY_SH" 1>&2
+    exit 6
+fi
+if [[ ! -f $TEMPLATE_TRY_ALT_SH ]]; then
+    echo "$0: ERROR: missing template/entry/try.alt.sh: $TEMPLATE_TRY_ALT_SH" 1>&2
     exit 6
 fi
 
@@ -2222,6 +2229,31 @@ if [[ -z $NOOP ]]; then
 	fi
     fi
 
+    # if prog.alt.c exits, and try.alt.sh does not exist, copy example over, otherwise just update the manifest
+    #
+    if [[ -f $YYYY_DIR/$ALT_C ]]; then
+	if [[ ! -f $TRY_ALT_SH ]]; then
+	    if [[ $V_FLAG -ge 3 ]]; then
+		echo  "$0: debug[3]: about to run: cp -f -p -v $TEMPLATE_TRY_ALT_SH $TRY_ALT_SH" 1>&2
+		cp -f -p -v "$TEMPLATE_TRY_ALT_SH" "$TRY_ALT_SH"
+		status="$?"
+		if [[ $status -ne 0 ]]; then
+		    echo "$0: ERROR: cp -f -p -v $TEMPLATE_TRY_ALT_SH $TRY_ALT_SH failed," \
+			     "error code: $status" 1>&2
+		    exit 54
+		fi
+	    else
+		cp -f -p "$TEMPLATE_TRY_ALT_SH" "$TRY_ALT_SH"
+		status="$?"
+		if [[ $status -ne 0 ]]; then
+		    echo "$0: ERROR: cp -f -p $TEMPLATE_TRY_ALT_SH $TRY_ALT_SH failed," \
+			     "error code: $status" 1>&2
+		    exit 55
+		fi
+	    fi
+	fi
+    fi
+
     # write manifest csv line for try.sh
     #
     ((++count))
@@ -2245,7 +2277,7 @@ if [[ -z $NOOP ]]; then
 	case "$EXTRA_FILE" in
 	prog.c|Makefile|prog.orig.c|index.html|README.md|remarks.md|\.*)
 	    echo "$0: ERROR: invalid extra_file filename: $EXTRA_FILE" 1>&2
-	    exit 54
+	    exit 56
 	    ;;
 	*) ;;
 	esac
@@ -2254,11 +2286,11 @@ if [[ -z $NOOP ]]; then
 	#
 	if [[ ! -e $YYYY_DIR/$EXTRA_FILE ]]; then
 	    echo "$0: ERROR: manifest file for extra_file does not exist: $YYYY_DIR/$EXTRA_FILE" 1>&2
-	    exit 55
+	    exit 57
 	fi
 	if [[ ! -f $YYYY_DIR/$EXTRA_FILE ]]; then
 	    echo "$0: ERROR: manifest file for extra_file is not a file: $YYYY_DIR/$EXTRA_FILE" 1>&2
-	    exit 56
+	    exit 58
 	fi
     done
 
@@ -2433,7 +2465,7 @@ if [[ -z $NOOP ]]; then
 	    if [[ $status -ne 0 ]]; then
 		echo "$0: ERROR: cp -f -p -v $TEMPLATE_GITIGNORE $DOT_GITIGNORE failed," \
 			 "error code: $status" 1>&2
-		exit 57
+		exit 59
 	    fi
 	else
 	    cp -f -p "$TEMPLATE_GITIGNORE" "$DOT_GITIGNORE"
@@ -2441,7 +2473,7 @@ if [[ -z $NOOP ]]; then
 	    if [[ $status -ne 0 ]]; then
 		echo "$0: ERROR: cp -f -p $TEMPLATE_GITIGNORE $DOT_GITIGNORE failed," \
 			 "error code: $status" 1>&2
-		exit 58
+		exit 60
 	    fi
 	fi
     fi
@@ -2477,7 +2509,7 @@ if [[ -z $NOOP ]]; then
 	    echo "$0: ERROR: $GEN_README_TOOL $YEAR_DIR $TEMPLATE_README_MD_HEAD $YYYY_DIR/remarks.md" \
 		 "$TEMPLATE_README_MD_TAIL $README_MD failed," \
 		 "error code: $status" 1>&2
-	    exit 59
+	    exit 61
 	fi
     elif [[ $V_FLAG -ge 3 ]]; then
 	echo "$0: debug[3]: README.md file already exists, skipping forming: $README_MD" 1>&2
@@ -2504,7 +2536,7 @@ if [[ -z $NOOP ]]; then
     if [[ $status -ne 0 ]]; then
         echo "$0: ERROR: LC_ALL=C sort -t, -k2n -k1,1 -k3,6 $TMP_MANIFEST_CSV -o $TMP_MANIFEST_CSV failed," \
              "error code: $status" 1>&2
-        exit 60
+        exit 62
     elif [[ $V_FLAG -ge 3 ]]; then
         echo "$0: debug[3]: sorted temporary manifest csv file: $TMP_MANIFEST_CSV" 1>&2
     fi
@@ -2547,7 +2579,7 @@ if [[ -z $NOOP ]]; then
     if [[ $status -ne 0 ]]; then
 	echo "$0: ERROR: $JPARSE_TOOL -q -- $TMP_ENTRY_JSON filed," \
 	     "error code: $status" 1>&2
-	exit 61
+	exit 63
     elif [[ $V_FLAG -ge 3 ]]; then
 	echo "$0: debug[3]: valid JSON: $TMP_ENTRY_JSON" 1>&2
     fi
@@ -2579,13 +2611,13 @@ if [[ -z $NOOP ]]; then
         if [[ $status -ne 0 ]]; then
             echo "$0: ERROR: mv -f -- $TMP_ENTRY_JSON $ENTRY_JSON filed," \
 	         "error code: $status" 1>&2
-            exit 62
+            exit 64
         elif [[ $V_FLAG -ge 1 ]]; then
             echo "$0: debug[1]: updated .entry.json: $ENTRY_JSON" 1>&2
         fi
         if [[ ! -s $ENTRY_JSON ]]; then
             echo "$0: ERROR: not a non-empty .entry.json: $ENTRY_JSON" 1>&2
-            exit 63
+            exit 65
         fi
     fi
 
@@ -2619,7 +2651,7 @@ for EXTRA_FILE in $EXTRA_FILE_SET; do
 		if [[ $status -ne 0 ]]; then
 		    echo "$0: ERROR: $OTHERMD2HTML_SH -v $V_FLAG -- $YYYY_DIR/$EXTRA_FILE filed," \
 			 "error code: $status" 1>&2
-		    exit 64
+		    exit 66
 		fi
 	    elif [[ $V_FLAG -ge 3 ]]; then
 		echo "$0: debug[3]: -n disabled forming HTML: $YYYY_DIR/$HTML_FILE" 1>&2
@@ -2652,7 +2684,7 @@ if [[ $status -ne 0 ]]; then
 	if [[ $status -ne 0 ]]; then
 	    echo "$0: ERROR: chmod +w $ALLYEAR filed," \
 		 "error code: $status" 1>&2
-	    exit 65
+	    exit 67
 	fi
 
 	# append YYYY_DIR to .allyear
@@ -2666,7 +2698,7 @@ if [[ $status -ne 0 ]]; then
 	if [[ $status -ne 0 ]]; then
 	    echo "$0: ERROR: sort -f -d -u $ALLYEAR -o $ALLYEAR filed," \
 		 "error code: $status" 1>&2
-	    exit 66
+	    exit 68
 	fi
 
     elif [[ $V_FLAG -ge 1 ]]; then
@@ -2691,7 +2723,7 @@ if [[ -z $NOOP ]]; then
 	if [[ $status -ne 0 ]]; then
 	    echo "$0: ERROR: $MD2HTML_SH -v $V_FLAG -- $README_MD $INDEX_HTML filed," \
 		 "error code: $status" 1>&2
-	    exit 67
+	    exit 69
 	fi
     fi
 
@@ -2717,7 +2749,7 @@ if [[ -z $NOOP ]]; then
 	echo "$0: ERROR: rm -f -v -- $INFO_JSON $AUTH_JSON $AUTH_JSON.xz $REMARKS_MD $YYYY_DIR/.prev" \
 	     "$YYYY_DIR/.submit.sh $YYYY_DIR/.txz $YYYY_DIR/.num.sh $YYYY_DIR/.orig filed," \
 	     "error code: $status" 1>&2
-	exit 68
+	exit 70
     fi
 
 # case: with -n
