@@ -4845,6 +4845,9 @@ Jump to: [top](#)
 
 When printing a 0 digit, the `fib.bin` 4004 program will print a space instead of a "0".
 
+Jump to: [top](#)
+
+
 <div id="2024_ferguson2">
 ## 2024/ferguson2
 </div>
