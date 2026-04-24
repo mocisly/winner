@@ -107,7 +107,7 @@ export LC_ALL="C"
 
 # set variables referenced in the usage message
 #
-export VERSION="2.0.3 2025-06-29"
+export VERSION="2.0.4 2026-04-22"
 NAME=$(basename "$0")
 export NAME
 export V_FLAG=0
@@ -421,6 +421,7 @@ if [[ -z $NOOP ]]; then
     if [[ $V_FLAG -ge 1 ]]; then
 	echo "$0: debug[1]: making sure that YYYY_DIR: $YYYY_DIR is in: $DOT_YEAR" 1>&2
     fi
+    chmod u+w "$DOT_YEAR"
     echo "$YYYY_DIR" >> "$DOT_YEAR"
 
     # sort .year
